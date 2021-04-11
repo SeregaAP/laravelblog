@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,8 +23,6 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
-Route::group(['middleware' => ['role:admin']], function () {
-    Route::get('/tests',function (){
-        return view('test');
-    });
+Route::middleware(['role:admin'])->prefix('admin_panel')->group(function () {
+    Route::get('/', [App\Http\Controllers\Admin\HomeController::class , 'index'])->name('homeAdmin');
 });
